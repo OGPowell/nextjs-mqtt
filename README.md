@@ -25,6 +25,7 @@ nextjs-mqtt
 - Node.js (v14 or later)
 - npm or yarn
 - HiveMQ account
+- Docker Desktop
 
 ## Setup Instructions
 
@@ -142,6 +143,10 @@ The client is set up using Next.js and connects to the server via Socket.IO to r
 
 ...
 ```
+
+## Running the Docker Container
+
+You can run the docker container using the command `docker-compose up --build`. Ensure that you have Docker Desktop open and running, as this will ensure that the Docker Engine is running.
 
 ## Conclusion
 
