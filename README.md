@@ -5,15 +5,16 @@ This project is a real-time web application that uses Next.js for the client-sid
 ## Project Structure
 
 ```
-my-nextjs-express-socketio-project
+nextjs-mqtt
 ├── client
-│   ├── pages
-│   │   └── index.js
+│   ├── app
+│   │   └── src
+|   |       └── page.tsx
 │   └── utils
-│       └── socket.js
+│       └── socket.ts
 ├── server
-│   └── index.js
-├── .env
+│   ├── index.js
+|   └── .env
 ├── .gitignore
 ├── package.json
 └── README.md
@@ -30,8 +31,8 @@ my-nextjs-express-socketio-project
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/OGPowell/nextjs-mqtt.git
+cd nextjs-mqtt
 ```
 
 ### 2. Install Dependencies
@@ -69,10 +70,8 @@ Navigate to the server folder and start the server:
 
 ```bash
 cd server
-node index.js
+npm run start
 ```
-
-The server will run on the port specified in the `.env` file (default is 3001).
 
 ### 5. Running the Client
 
@@ -92,22 +91,7 @@ The client will run on `http://localhost:3000`.
 The server is set up to connect to HiveMQ using MQTT.js and uses Socket.IO to communicate with the client. The server subscribes to a specified topic on HiveMQ and emits received messages to connected clients via Socket.IO.
 
 ```javascript
-require('dotenv').config();
-
-const express = require("express");
-const http = require("http");
-const mqtt = require("mqtt");
-const { Server } = require("socket.io");
-
-const app = express();
-const server = http.createServer(app);
-
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-  },
-});
+...
 
 const options = {
   host: process.env.HIVEMQ_HOST,
@@ -135,39 +119,7 @@ mqttClient.on("message", (topic, message) => {
   io.emit("mqttMessage", { topic, message: message.toString() });
 });
 
-mqttClient.on("error", (err) => {
-  console.error("MQTT client error:", err);
-});
-
-mqttClient.on("reconnect", () => {
-  console.log("Reconnecting to HiveMQ broker...");
-});
-
-mqttClient.on("offline", () => {
-  console.log("MQTT client went offline");
-});
-
-mqttClient.on("close", () => {
-  console.log("MQTT connection closed");
-});
-
-io.on("connection", (socket) => {
-  console.log("New client connected");
-
-  socket.on("disconnect", () => {
-    console.log("A user has disconnected");
-  });
-
-  socket.on("getMessage", (msg) => {
-    io.emit("sendMessage", msg);
-  });
-});
-
-const PORT = process.env.PORT || 3001;
-
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+...
 ```
 
 ### Client
@@ -177,12 +129,7 @@ The client is set up using Next.js and connects to the server via Socket.IO to r
 #### pages/index.js
 
 ```javascript
-import { useEffect, useState } from 'react';
-import socket from '../utils/socket';
-
-export default function Home() {
-  const [messages, setMessages] = useState([]);
-
+...
   useEffect(() => {
     socket.on('mqttMessage', (data) => {
       setMessages((prevMessages) => [...prevMessages, data]);
@@ -193,29 +140,7 @@ export default function Home() {
     };
   }, []);
 
-  return (
-    <div>
-      <h1>MQTT Messages</h1>
-      <ul>
-        {messages.map((msg, index) => (
-          <li key={index}>
-            Topic: {msg.topic}, Message: {msg.message}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-```
-
-#### utils/socket.js
-
-```javascript
-import { io } from 'socket.io-client';
-
-const socket = io('http://localhost:3001'); // Replace with your server URL
-
-export default socket;
+...
 ```
 
 ## Conclusion
