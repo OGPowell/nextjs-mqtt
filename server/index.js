@@ -28,7 +28,7 @@ const options = {
 };
 
 const mqttClient = mqtt.connect(options);
-const topic = "AGI/International/Office/Manufacturing_Operations_Center/#";
+const topic = "your/topic";
 
 mqttClient.on("connect", () => {
   console.log("Connected to HiveMQ broker");
