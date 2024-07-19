@@ -13,8 +13,8 @@ nextjs-mqtt
 │   └── utils
 │       └── socket.ts
 ├── server
-│   ├── index.js
-|   └── .env
+│   └── index.js
+├── .env
 ├── .gitignore
 ├── package.json
 └── README.md
