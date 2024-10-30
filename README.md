@@ -61,6 +61,7 @@ HIVEMQ_HOST=your_hivemq_host
 HIVEMQ_USERNAME=your_hivemq_username
 HIVEMQ_PASSWORD=your_hivemq_password
 PORT=3001
+TOPIC=your/topic
 ```
 
 Replace `your_hivemq_host`, `your_hivemq_username`, and `your_hivemq_password` with your HiveMQ credentials.
