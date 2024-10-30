@@ -28,7 +28,7 @@ const options = {
 };
 
 const mqttClient = mqtt.connect(options);
-const topic = "your/topic";
+const topic = process.env.TOPIC;
 
 mqttClient.on("connect", () => {
   console.log("Connected to HiveMQ broker");
